@@ -8,8 +8,7 @@ const path = require("path");
 
 const app = express();
 
-// CORS
-const cors = require("cors");
+
 
 const allowedOrigins = [
   "http://localhost:3000", // ✅ for local dev
