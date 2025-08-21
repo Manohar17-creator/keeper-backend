@@ -9,17 +9,27 @@ const path = require("path");
 const app = express();
 
 // CORS
-const allowed = (process.env.CORS_ORIGIN || "").split(",").filter(Boolean);
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3000", // ✅ for local dev
+  "https://singular-valkyrie-96f820.netlify.app" // ✅ your deployed frontend
+];
+
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowed.length === 0 || allowed.includes(origin))
-        return cb(null, true);
-      return cb(new Error("Not allowed by CORS"));
+      if (!origin || allowedOrigins.includes(origin)) {
+        cb(null, true);
+      } else {
+        cb(new Error("Not allowed by CORS"));
+      }
     },
-    credentials: false,
+    methods: ["GET", "POST", "DELETE"], // ✅ allow only needed methods
+    credentials: true
   })
 );
+
 
 app.use(express.json());
 
